@@ -4,6 +4,7 @@ type (
 	BenefitDays struct {
 		age           int
 		insuredPeriod int
+		reason        int
 	}
 )
 
@@ -37,7 +38,8 @@ func (this BenefitDays) judgeAgeKind() int {
 	return 4
 }
 
-func (this BenefitDays) selectBenefitDaysTable(reason int) [5][5]int {
+func (this BenefitDays) selectBenefitDaysTable() [5][5]int {
+	reason := this.reason
 	// 会社都合
 	var benefitDaysTable1 = [5][5]int{
 		{90, 90, 90, 90, 90},      // 1年未満
@@ -66,10 +68,12 @@ func (this BenefitDays) selectBenefitDaysTable(reason int) [5][5]int {
 	}
 
 	switch reason {
-	case 1: // 勤め先の倒産や解雇など、会社都合の退職
-	case 2: // 有期雇用で更新を希望したがかなわず、退職
+	// 1.勤め先の倒産や解雇など、会社都合の退職
+	// 2.有期雇用で更新を希望したがかなわず、退職
+	case 1, 2:
 		return benefitDaysTable1
-	case 3: // 病気・怪我・妊娠・介護など致し方ない理由での退職
+		// 病気・怪我・妊娠・介護など致し方ない理由での退職
+	case 3:
 		return benefitDaysTable3
 	}
 
@@ -82,10 +86,11 @@ func (this BenefitDays) selectBenefitDaysTable(reason int) [5][5]int {
 func (this BenefitDays) Calc(age int, insuredPeriod int, reason int) int {
 	this.age = age
 	this.insuredPeriod = insuredPeriod
+	this.reason = reason
 
 	ageKind := this.judgeAgeKind()
 	insuredPeriodKind := this.judgeInsuredPeriodKind()
-	benefitDaysTable := this.selectBenefitDaysTable(reason)
+	benefitDaysTable := this.selectBenefitDaysTable()
 
-	return benefitDaysTable[ageKind][insuredPeriodKind]
+	return benefitDaysTable[insuredPeriodKind][ageKind]
 }
