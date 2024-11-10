@@ -84,6 +84,11 @@ func (this BenefitDays) selectBenefitDaysTable() [5][5]int {
 }
 
 func (this BenefitDays) Calc(age int, insuredPeriod int, reason int) int {
+	// 雇用保険の被保険者期間が成立するのは、15歳から
+	if (age - insuredPeriod) < 15 {
+		return 0
+	}
+
 	this.age = age
 	this.insuredPeriod = insuredPeriod
 	this.reason = reason

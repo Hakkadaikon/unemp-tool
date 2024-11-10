@@ -7,7 +7,7 @@ BINROOT := ./bin
 SRCROOT := ./src
 
 
-.PHONY: build clean format run
+.PHONY: build clean format run test
 
 build:
 	cd $(SRCROOT) && go fmt && go build -o ../$(BINROOT)
@@ -18,3 +18,5 @@ format:
 	cd $(SRCROOT) && go fmt
 run:
 	$(BINROOT)/$(PROGRAM)
+test:
+	cd $(SRCROOT) && go fmt && go build && go test
