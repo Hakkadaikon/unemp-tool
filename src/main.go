@@ -36,7 +36,6 @@ func main() {
                 5: 定年退職(65歳未満)
                 6: 65歳以上での退職`))
 
-	fmt.Println("reason:", reason)
 	var benefitDays BenefitDays
 	var allowance Allowance
 
