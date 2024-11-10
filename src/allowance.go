@@ -35,6 +35,10 @@ func (this Allowance) calcDailyAllowanceFromTotalWage() int {
 }
 
 func (this Allowance) CalcDailyAllowance(age int, totalWage int) int {
+	if age < 15 {
+		return 0
+	}
+
 	this.age = age
 	this.totalWage = totalWage
 
