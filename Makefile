@@ -10,7 +10,7 @@ SRCROOT := ./src
 .PHONY: build clean format run test
 
 build:
-	cd $(SRCROOT) && go fmt && go build -o ../$(BINROOT)
+	cd $(SRCROOT) && go fmt && go build -o ../$(BINROOT) && rm $(PROGRAM)
 
 clean:
 	rm -f $(BINROOT)/*
