@@ -19,6 +19,8 @@ func getStdIn(desc string) int {
 }
 
 func main() {
+	fmt.Println("失業手当を計算します")
+
 	totalWage := getStdIn("過去6か月の賃金総額(円)")
 	age := getStdIn("年齢")
 
