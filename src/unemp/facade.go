@@ -28,12 +28,12 @@ func (this Facade) Exec() {
                 5: 定年退職(65歳未満)
                 6: 65歳以上での退職`)
 
-	var benefitDays BenefitDays
+	var days Days
 	var allowance Allowance
 
 	console.Println("計算結果")
 	console.Println("---------------------------------------------------")
-	console.Println("給付日数:", benefitDays.Calc(age, insuredPeriod, reason))
+	console.Println("給付日数:", days.Calc(age, insuredPeriod, reason))
 	console.Println("失業手当 日当(円):", allowance.CalcDailyAllowance(age, totalWage))
 	console.Println("失業手当 月額(円):", allowance.CalcMonthlyAllowance(age, totalWage))
 	console.Println("---------------------------------------------------")

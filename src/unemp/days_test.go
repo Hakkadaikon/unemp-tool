@@ -4,7 +4,7 @@ import (
 	"testing"
 )
 
-func TestBenefitDays_Calc(t *testing.T) {
+func TestDays_Calc(t *testing.T) {
 	tests := []struct {
 		name           string
 		age            int
@@ -126,8 +126,8 @@ func TestBenefitDays_Calc(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			benefitDays := BenefitDays{}
-			result := benefitDays.Calc(tt.age, tt.insuredPeriod, tt.reason)
+			Days := Days{}
+			result := Days.Calc(tt.age, tt.insuredPeriod, tt.reason)
 			if result != tt.expectedResult {
 				t.Errorf("Calc(%d, %d, %d) = %d; want %d",
 					tt.age,
