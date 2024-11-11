@@ -34,10 +34,22 @@ func (this UnempAllowance) calcDailyAllowanceFromTotalWage() int {
 	return (this.totalWage / 180)
 }
 
-func (this UnempAllowance) CalcDailyAllowance(age int, totalWage int) int {
+func (this UnempAllowance) validate(age int, totalWage int) bool {
 	if age < 15 {
-		return 0
+		return false
 	}
+
+        if totalWage <= 0 {
+            return false
+        }
+
+        return true
+}
+
+func (this UnempAllowance) CalcDailyAllowance(age int, totalWage int) int {
+        if !this.validate(age, totalWage) {
+            return 0
+        }
 
 	this.age = age
 	this.totalWage = totalWage
