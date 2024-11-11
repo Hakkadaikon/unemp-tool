@@ -28,13 +28,24 @@ func (this Facade) Exec() {
                 5: 定年退職(65歳未満)
                 6: 65歳以上での退職`)
 
+        numOfDayPassed := console.GetInt("失業手当の期間経過日数")
+
 	var days Days
 	var unempAllowance UnempAllowance
+        var reempAllowance ReempAllowance
+
+        numOfDaysTotal          := days.Calc(age, insuredPeriod, reason)
+        dailyUnempAllowance     := unempAllowance.CalcDailyAllowance(age, totalWage)
+        monthlyUnempAllowance   := unempAllowance.CalcMonthlyAllowance(age, totalWage)
+        unempAllowanceTotal     := dailyUnempAllowance * numOfDaysTotal
+        reempAllowanceTotal     := reempAllowance.CalcReempAllowance(numOfDaysTotal, numOfDayPassed, dailyUnempAllowance)
 
 	console.Println("計算結果")
 	console.Println("---------------------------------------------------")
-	console.Println("給付日数:", days.Calc(age, insuredPeriod, reason))
-	console.Println("失業手当 日当(円):", unempAllowance.CalcDailyAllowance(age, totalWage))
-	console.Println("失業手当 月額(円):", unempAllowance.CalcMonthlyAllowance(age, totalWage))
+	console.Println("失業手当 給付日数 :", numOfDaysTotal)
+	console.Println("失業手当 合計(円) :", unempAllowanceTotal)
+	console.Println("失業手当 日当(円) :", dailyUnempAllowance)
+	console.Println("失業手当 月額(円) :", monthlyUnempAllowance)
+	console.Println("再就職手当(円)    :", reempAllowanceTotal)
 	console.Println("---------------------------------------------------")
 }
