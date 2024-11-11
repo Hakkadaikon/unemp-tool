@@ -31,10 +31,29 @@ func (this ReempAllowance) calcSimpleReempAllowance() float64 {
     return float64(numOfDayRemaining) * float64(this.dailyAllowance)
 }
 
+func (this ReempAllowance) validate(
+	numOfDayTotal  int,
+	numOfDayPassed int,
+	dailyAllowance int) bool {
+    if numOfDayTotal <= 0 || dailyAllowance <= 0 {
+        return false
+    }
+
+    if numOfDayPassed >= numOfDayTotal {
+        return false
+    }
+
+    return true
+}
+
 func (this ReempAllowance) CalcReempAllowance(
 	numOfDayTotal  int,
 	numOfDayPassed int,
 	dailyAllowance int) int {
+    if !this.validate(numOfDayTotal, numOfDayPassed, dailyAllowance) {
+        return 0
+    }
+
     this.numOfDayTotal  = numOfDayTotal 
     this.numOfDayPassed = numOfDayPassed 
     this.dailyAllowance = dailyAllowance
