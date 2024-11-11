@@ -1,13 +1,13 @@
 package unemp 
 
 type (
-	Allowance struct {
+	UnempAllowance struct {
 		age       int
 		totalWage int
 	}
 )
 
-func (this Allowance) judgeAgeKind() int {
+func (this UnempAllowance) judgeAgeKind() int {
 	age := this.age
 	if age <= 29 {
 		return 0
@@ -22,7 +22,7 @@ func (this Allowance) judgeAgeKind() int {
 	return 4
 }
 
-func (this Allowance) selectLimitDailyAllowance() int {
+func (this UnempAllowance) selectLimitDailyAllowance() int {
 	var limitDailyAllowanceTable = [5]int{
 		7065, 7845, 8635, 7420, 0}
 
@@ -30,11 +30,11 @@ func (this Allowance) selectLimitDailyAllowance() int {
 	return limitDailyAllowanceTable[ageKind]
 }
 
-func (this Allowance) calcDailyAllowanceFromTotalWage() int {
+func (this UnempAllowance) calcDailyAllowanceFromTotalWage() int {
 	return (this.totalWage / 180)
 }
 
-func (this Allowance) CalcDailyAllowance(age int, totalWage int) int {
+func (this UnempAllowance) CalcDailyAllowance(age int, totalWage int) int {
 	if age < 15 {
 		return 0
 	}
@@ -52,6 +52,6 @@ func (this Allowance) CalcDailyAllowance(age int, totalWage int) int {
 	return calcAllowance
 }
 
-func (this Allowance) CalcMonthlyAllowance(age int, totalWage int) int {
+func (this UnempAllowance) CalcMonthlyAllowance(age int, totalWage int) int {
 	return (this.CalcDailyAllowance(age, totalWage) * 28)
 }

@@ -4,7 +4,7 @@ import (
 	"testing"
 )
 
-func TestAllowance_CalcDailyAllowance(t *testing.T) {
+func TestUnempAllowance_CalcDailyAllowance(t *testing.T) {
 	tests := []struct {
 		name           string
 		age            int
@@ -29,7 +29,7 @@ func TestAllowance_CalcDailyAllowance(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			a := Allowance{}
+			a := UnempAllowance{}
 			result := a.CalcDailyAllowance(tt.age, tt.totalWage)
 			if result != tt.expectedResult {
 				t.Errorf("CalcDailyAllowance(%d, %d) = %d; want %d", tt.age, tt.totalWage, result, tt.expectedResult)
