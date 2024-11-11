@@ -21,4 +21,9 @@ format:
 run:
 	$(BINROOT)/$(PROGRAM)
 test:
-	cd $(SRCROOT) && go fmt && go build && rm -f $(PROGRAM) && go test
+	cd $(SRCROOT) && \
+	go fmt && \
+	go build && \
+	rm -f $(PROGRAM) && \
+	go test && \
+	go test -v ./unemp
