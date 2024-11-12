@@ -2,8 +2,8 @@ package exchange
 
 import (
 	"encoding/json"
-	"fmt"
 	"unemp-tool/middleware"
+	"unemp-tool/myerror"
 )
 
 type Bitcoin struct {
@@ -61,7 +61,7 @@ func (this *Bitcoin) JpyToBtc(jpy float64) (float64, error) {
 
 func (this *Bitcoin) JpyToSatoshi(jpy float64) (float64, error) {
 	if jpy <= 0 {
-		return 0, fmt.Errorf("jpy is 0")
+		return 0, myerror.New("jpy is 0")
 	}
 
 	jpyToBtc, err := this.JpyToBtc(jpy)
@@ -70,7 +70,7 @@ func (this *Bitcoin) JpyToSatoshi(jpy float64) (float64, error) {
 	}
 
 	if jpyToBtc <= 0 {
-		return 0, fmt.Errorf("jpy to btc is 0")
+		return 0, myerror.New("jpy to btc is 0")
 	}
 
 	jpyToSatoshi := this.BtcToSatoshi(jpyToBtc)

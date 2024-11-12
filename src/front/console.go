@@ -9,8 +9,6 @@ type (
 	Console struct{}
 )
 
-var console Console
-
 func (this *Console) GetInt(desc string) int {
 	fmt.Print("\n")
 	fmt.Println("---------------")

@@ -1,10 +1,10 @@
 package middleware
 
 import (
-	"errors"
 	"io"
 	"net/http"
 	"strings"
+	"unemp-tool/myerror"
 )
 
 type MockHttpClient struct {
@@ -38,7 +38,7 @@ func (this *MockHttpClient) SetMockResponseOK() {
 }
 
 func (this *MockHttpClient) SetMockNetworkError() {
-	this.SetMockResponse(nil, errors.New(this.GetResponseNetworkErrorMessage()))
+	this.SetMockResponse(nil, myerror.New(this.GetResponseNetworkErrorMessage()))
 }
 
 func (this *MockHttpClient) GetSampleHttpRequest() *http.Request {
