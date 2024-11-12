@@ -6,11 +6,18 @@ import (
 )
 
 type HttpClient struct {
-	Client HttpClientInterface
+	client HttpClientInterface
 }
 
-func NewHttpClient(client HttpClientInterface) *HttpClient {
-	return &HttpClient{Client: client}
+func (this HttpClient) SetHttpClient(client HttpClientInterface) {
+	this.client = client
+}
+
+func (this *HttpClient) getHttpClient() HttpClientInterface {
+	if this.client != nil {
+		return this.client
+	}
+	return http.DefaultClient
 }
 
 func (this *HttpClient) createNewRequest(url string) (*http.Request, error) {
@@ -23,7 +30,8 @@ func (this *HttpClient) createNewRequest(url string) (*http.Request, error) {
 }
 
 func (this *HttpClient) Do(req *http.Request) (string, error) {
-	resp, err := this.Client.Do(req)
+	client := this.getHttpClient()
+	resp, err := client.Do(req)
 	if err != nil {
 		return "", err
 	}
