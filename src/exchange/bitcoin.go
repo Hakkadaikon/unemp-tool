@@ -11,11 +11,11 @@ type Bitcoin struct {
 	httpClientAdapter middleware.HttpClient
 }
 
-func (this Bitcoin) SetHttpClient(client middleware.HttpClientInterface) {
+func (this *Bitcoin) SetHttpClient(client middleware.HttpClientInterface) {
 	this.httpClientAdapter.SetHttpClient(client)
 }
 
-func (this Bitcoin) OneBtcToJpy() (float64, error) {
+func (this *Bitcoin) OneBtcToJpy() (float64, error) {
 	if this.oneBtcToJpy != 0 {
 		return this.oneBtcToJpy, nil
 	}
@@ -41,15 +41,15 @@ func (this Bitcoin) OneBtcToJpy() (float64, error) {
 	return result.Bitcoin.Jpy, nil
 }
 
-func (this Bitcoin) SatoshiToBtc(satoshi float64) float64 {
+func (this *Bitcoin) SatoshiToBtc(satoshi float64) float64 {
 	return satoshi / 100000000
 }
 
-func (this Bitcoin) BtcToSatoshi(satoshi float64) float64 {
+func (this *Bitcoin) BtcToSatoshi(satoshi float64) float64 {
 	return satoshi * 100000000
 }
 
-func (this Bitcoin) JpyToBtc(jpy float64) (float64, error) {
+func (this *Bitcoin) JpyToBtc(jpy float64) (float64, error) {
 	btcToJpy, err := this.OneBtcToJpy()
 	if err != nil {
 		return 0, err
@@ -59,7 +59,7 @@ func (this Bitcoin) JpyToBtc(jpy float64) (float64, error) {
 	return jpyToBtc, nil
 }
 
-func (this Bitcoin) JpyToSatoshi(jpy float64) (float64, error) {
+func (this *Bitcoin) JpyToSatoshi(jpy float64) (float64, error) {
 	if jpy <= 0 {
 		return 0, fmt.Errorf("jpy is 0")
 	}

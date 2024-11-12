@@ -8,7 +8,7 @@ type (
 	}
 )
 
-func (this Days) judgeInsuredPeriodKind() int {
+func (this *Days) judgeInsuredPeriodKind() int {
 	insuredPeriod := this.insuredPeriod
 	if insuredPeriod <= 0 {
 		return 0
@@ -23,7 +23,7 @@ func (this Days) judgeInsuredPeriodKind() int {
 	return 4
 }
 
-func (this Days) judgeAgeKind() int {
+func (this *Days) judgeAgeKind() int {
 	age := this.age
 	if age <= 29 {
 		return 0
@@ -38,7 +38,7 @@ func (this Days) judgeAgeKind() int {
 	return 4
 }
 
-func (this Days) selectDaysTable() [5][5]int {
+func (this *Days) selectDaysTable() [5][5]int {
 	reason := this.reason
 	// 会社都合
 	var DaysTable1 = [5][5]int{
@@ -83,7 +83,7 @@ func (this Days) selectDaysTable() [5][5]int {
 	return DaysTable2
 }
 
-func (this Days) Calc(age int, insuredPeriod int, reason int) int {
+func (this *Days) Calc(age int, insuredPeriod int, reason int) int {
 	// 雇用保険の被保険者期間が成立するのは、15歳から
 	if (age - insuredPeriod) < 15 {
 		return 0

@@ -11,7 +11,7 @@ type (
 
 var console Console
 
-func (this Console) GetInt(desc string) int {
+func (this *Console) GetInt(desc string) int {
 	fmt.Print("\n")
 	fmt.Println("---------------")
 	fmt.Println(heredoc.Doc(desc))
@@ -24,10 +24,10 @@ func (this Console) GetInt(desc string) int {
 	return intVal
 }
 
-func (this Console) Println(a ...interface{}) (n int, err error) {
+func (this *Console) Println(a ...interface{}) (n int, err error) {
 	return fmt.Println(a...)
 }
 
-func (this Console) Printf(format string, a ...any) (n int, err error) {
+func (this *Console) Printf(format string, a ...any) (n int, err error) {
 	return fmt.Printf(format, a...)
 }

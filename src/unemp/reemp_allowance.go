@@ -8,7 +8,7 @@ type (
 	}
 )
 
-func (this ReempAllowance) judgeRate() float64 {
+func (this *ReempAllowance) judgeRate() float64 {
 	numOfDayRemaining := this.calcNumOfDayRemaining()
 	compDays := float64(numOfDayRemaining / 3)
 
@@ -21,17 +21,17 @@ func (this ReempAllowance) judgeRate() float64 {
 	return 0.6
 }
 
-func (this ReempAllowance) calcNumOfDayRemaining() int {
+func (this *ReempAllowance) calcNumOfDayRemaining() int {
 	return this.numOfDayTotal - this.numOfDayPassed
 }
 
-func (this ReempAllowance) calcSimpleReempAllowance() float64 {
+func (this *ReempAllowance) calcSimpleReempAllowance() float64 {
 	// 給付率を意識しない単純計算した再就職手当を返却
 	numOfDayRemaining := this.calcNumOfDayRemaining()
 	return float64(numOfDayRemaining) * float64(this.dailyAllowance)
 }
 
-func (this ReempAllowance) validate(
+func (this *ReempAllowance) validate(
 	numOfDayTotal int,
 	numOfDayPassed int,
 	dailyAllowance int) bool {
@@ -46,7 +46,7 @@ func (this ReempAllowance) validate(
 	return true
 }
 
-func (this ReempAllowance) CalcReempAllowance(
+func (this *ReempAllowance) CalcReempAllowance(
 	numOfDayTotal int,
 	numOfDayPassed int,
 	dailyAllowance int) int {

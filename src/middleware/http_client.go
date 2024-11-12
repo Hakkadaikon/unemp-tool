@@ -9,7 +9,7 @@ type HttpClient struct {
 	client HttpClientInterface
 }
 
-func (this HttpClient) SetHttpClient(client HttpClientInterface) {
+func (this *HttpClient) SetHttpClient(client HttpClientInterface) {
 	this.client = client
 }
 

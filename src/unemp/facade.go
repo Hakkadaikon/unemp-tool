@@ -9,7 +9,7 @@ type (
 	Facade struct{}
 )
 
-func (this Facade) Exec() {
+func (this *Facade) Exec() {
 	var console front.Console
 	console.Println("失業手当を計算します")
 
