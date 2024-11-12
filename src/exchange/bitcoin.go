@@ -1,7 +1,6 @@
 package exchange
 
 import (
-	"encoding/json"
 	"unemp-tool/middleware"
 	"unemp-tool/myerror"
 )
@@ -9,10 +8,15 @@ import (
 type Bitcoin struct {
 	oneBtcToJpy       float64
 	httpClientAdapter middleware.HttpClient
+	coinapi           CoinApiInterface
 }
 
 func (this *Bitcoin) SetHttpClient(client middleware.HttpClientInterface) {
 	this.httpClientAdapter.SetHttpClient(client)
+}
+
+func (this *Bitcoin) SetCoinApi(coinapi CoinApiInterface) {
+	this.coinapi = coinapi
 }
 
 func (this *Bitcoin) OneBtcToJpy() (float64, error) {
@@ -20,25 +24,23 @@ func (this *Bitcoin) OneBtcToJpy() (float64, error) {
 		return this.oneBtcToJpy, nil
 	}
 
-	type CoinGeckoResponse struct {
-		Bitcoin struct {
-			Jpy float64 `json:"jpy"`
-		} `json:"bitcoin"`
+	if this.coinapi == nil {
+		this.coinapi = &CoinGecko{}
 	}
 
-	url := "https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=jpy"
-	resp, err := this.httpClientAdapter.Get(url)
+	endpoint := this.coinapi.GetEndPoint()
+	resp, err := this.httpClientAdapter.Get(endpoint)
 	if err != nil {
 		return 0, err
 	}
 
-	var result CoinGeckoResponse
-	if err := json.Unmarshal([]byte(resp), &result); err != nil {
+	oneBtcToJpy, err := this.coinapi.BtcToJpy([]byte(resp))
+	if err != nil {
 		return 0, err
 	}
 
-	this.oneBtcToJpy = result.Bitcoin.Jpy
-	return result.Bitcoin.Jpy, nil
+	this.oneBtcToJpy = oneBtcToJpy
+	return oneBtcToJpy, nil
 }
 
 func (this *Bitcoin) SatoshiToBtc(satoshi float64) float64 {
