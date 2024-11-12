@@ -29,5 +29,4 @@ test:
 	go fmt ./... && \
 	go build && \
 	rm -f $(PROGRAM) && \
-	go test && \
-	go test -v ./unemp
+	go test -v ./...
