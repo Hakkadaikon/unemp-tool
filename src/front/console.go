@@ -27,3 +27,7 @@ func (this Console) GetInt(desc string) int {
 func (this Console) Println(a ...interface{}) (n int, err error) {
 	return fmt.Println(a...)
 }
+
+func (this Console) Printf(format string, a ...any) (n int, err error) {
+	return fmt.Printf(format, a...)
+}
