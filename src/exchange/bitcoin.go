@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
+	"unemp-tool/middleware"
 )
 
 type Bitcoin struct {
@@ -21,15 +22,16 @@ func (this Bitcoin) OneBtcToJpy() (float64, error) {
 		} `json:"bitcoin"`
 	}
 
+	httpClient := middleware.NewHttpClient(http.DefaultClient)
+
 	url := "https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=jpy"
-	resp, err := http.Get(url)
+	resp, err := httpClient.Get(url)
 	if err != nil {
 		return 0, err
 	}
-	defer resp.Body.Close()
 
 	var result CoinGeckoResponse
-	if err := json.NewDecoder(resp.Body).Decode(&result); err != nil {
+	if err := json.Unmarshal([]byte(resp), &result); err != nil {
 		return 0, err
 	}
 
