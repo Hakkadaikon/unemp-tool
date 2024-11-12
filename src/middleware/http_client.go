@@ -13,13 +13,17 @@ func NewHttpClient(client HttpClientInterface) *HttpClient {
 	return &HttpClient{Client: client}
 }
 
-func (c *HttpClient) Get(url string) (string, error) {
+func (this *HttpClient) createNewRequest(url string) (*http.Request, error) {
 	req, err := http.NewRequest("GET", url, nil)
 	if err != nil {
-		return "", err
+		return nil, err
 	}
 
-	resp, err := c.Client.Do(req)
+	return req, nil
+}
+
+func (this *HttpClient) Do(req *http.Request) (string, error) {
+	resp, err := this.Client.Do(req)
 	if err != nil {
 		return "", err
 	}
@@ -31,4 +35,13 @@ func (c *HttpClient) Get(url string) (string, error) {
 	}
 
 	return string(body), nil
+}
+
+func (this *HttpClient) Get(url string) (string, error) {
+	req, err := this.createNewRequest(url)
+	if err != nil {
+		return "", err
+	}
+
+	return this.Do(req)
 }
