@@ -9,6 +9,18 @@ import (
 
 type Bitcoin struct {
 	oneBtcToJpy float64
+	httpClient  middleware.HttpClientInterface
+}
+
+func (this Bitcoin) SetHttpClient(client middleware.HttpClientInterface) {
+	this.httpClient = client
+}
+
+func (this Bitcoin) getHttpClientAdapter() *middleware.HttpClient {
+	if this.httpClient != nil {
+		return middleware.NewHttpClient(this.httpClient)
+	}
+	return middleware.NewHttpClient(http.DefaultClient)
 }
 
 func (this Bitcoin) OneBtcToJpy() (float64, error) {
@@ -22,10 +34,9 @@ func (this Bitcoin) OneBtcToJpy() (float64, error) {
 		} `json:"bitcoin"`
 	}
 
-	httpClient := middleware.NewHttpClient(http.DefaultClient)
-
 	url := "https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=jpy"
-	resp, err := httpClient.Get(url)
+	httpClientAdapter := this.getHttpClientAdapter()
+	resp, err := httpClientAdapter.Get(url)
 	if err != nil {
 		return 0, err
 	}
