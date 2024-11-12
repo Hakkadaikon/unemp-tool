@@ -1,4 +1,4 @@
-package unemp 
+package unemp
 
 type (
 	ReempAllowance struct {
@@ -9,57 +9,57 @@ type (
 )
 
 func (this ReempAllowance) judgeRate() float64 {
-    numOfDayRemaining := this.calcNumOfDayRemaining()
-    compDays := float64(numOfDayRemaining / 3)
+	numOfDayRemaining := this.calcNumOfDayRemaining()
+	compDays := float64(numOfDayRemaining / 3)
 
-    // 給付日数が総日数の3/1以上ある場合の給付率:0.7
-    // そうでない場合の給付率:0.6
-    if float64(numOfDayRemaining) > compDays {
-        return 0.7
-    }
+	// 給付日数が総日数の3/1以上ある場合の給付率:0.7
+	// そうでない場合の給付率:0.6
+	if float64(numOfDayRemaining) > compDays {
+		return 0.7
+	}
 
-    return 0.6
+	return 0.6
 }
 
 func (this ReempAllowance) calcNumOfDayRemaining() int {
-    return this.numOfDayTotal - this.numOfDayPassed
+	return this.numOfDayTotal - this.numOfDayPassed
 }
 
 func (this ReempAllowance) calcSimpleReempAllowance() float64 {
-    // 給付率を意識しない単純計算した再就職手当を返却
-    numOfDayRemaining := this.calcNumOfDayRemaining()
-    return float64(numOfDayRemaining) * float64(this.dailyAllowance)
+	// 給付率を意識しない単純計算した再就職手当を返却
+	numOfDayRemaining := this.calcNumOfDayRemaining()
+	return float64(numOfDayRemaining) * float64(this.dailyAllowance)
 }
 
 func (this ReempAllowance) validate(
-	numOfDayTotal  int,
+	numOfDayTotal int,
 	numOfDayPassed int,
 	dailyAllowance int) bool {
-    if numOfDayTotal <= 0 || dailyAllowance <= 0 {
-        return false
-    }
+	if numOfDayTotal <= 0 || dailyAllowance <= 0 {
+		return false
+	}
 
-    if numOfDayPassed >= numOfDayTotal {
-        return false
-    }
+	if numOfDayPassed >= numOfDayTotal {
+		return false
+	}
 
-    return true
+	return true
 }
 
 func (this ReempAllowance) CalcReempAllowance(
-	numOfDayTotal  int,
+	numOfDayTotal int,
 	numOfDayPassed int,
 	dailyAllowance int) int {
-    if !this.validate(numOfDayTotal, numOfDayPassed, dailyAllowance) {
-        return 0
-    }
+	if !this.validate(numOfDayTotal, numOfDayPassed, dailyAllowance) {
+		return 0
+	}
 
-    this.numOfDayTotal  = numOfDayTotal 
-    this.numOfDayPassed = numOfDayPassed 
-    this.dailyAllowance = dailyAllowance
+	this.numOfDayTotal = numOfDayTotal
+	this.numOfDayPassed = numOfDayPassed
+	this.dailyAllowance = dailyAllowance
 
-    rate := this.judgeRate()
-    allowance := this.calcSimpleReempAllowance()
+	rate := this.judgeRate()
+	allowance := this.calcSimpleReempAllowance()
 
-    return int(allowance * rate)
+	return int(allowance * rate)
 }

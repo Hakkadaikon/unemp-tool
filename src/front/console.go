@@ -1,4 +1,4 @@
-package front 
+package front
 
 import (
 	"fmt"
@@ -6,7 +6,7 @@ import (
 )
 
 type (
-	Console struct {}
+	Console struct{}
 )
 
 var console Console
@@ -24,6 +24,6 @@ func (this Console) GetInt(desc string) int {
 	return intVal
 }
 
-func (this Console) Println(a...interface{}) (n int, err error) {
-    return fmt.Println(a...)
+func (this Console) Println(a ...interface{}) (n int, err error) {
+	return fmt.Println(a...)
 }

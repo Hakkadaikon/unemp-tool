@@ -1,4 +1,4 @@
-package unemp 
+package unemp
 
 type (
 	UnempAllowance struct {
@@ -39,17 +39,17 @@ func (this UnempAllowance) validate(age int, totalWage int) bool {
 		return false
 	}
 
-        if totalWage <= 0 {
-            return false
-        }
+	if totalWage <= 0 {
+		return false
+	}
 
-        return true
+	return true
 }
 
 func (this UnempAllowance) CalcDailyAllowance(age int, totalWage int) int {
-        if !this.validate(age, totalWage) {
-            return 0
-        }
+	if !this.validate(age, totalWage) {
+		return 0
+	}
 
 	this.age = age
 	this.totalWage = totalWage
