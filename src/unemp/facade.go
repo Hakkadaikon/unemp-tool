@@ -56,6 +56,8 @@ func (this Facade) Exec() {
 		console.Printf("失業手当 月額     : %7d 円 / %10.0f satoshi\n", monthlyUnempAllowance, monthlyUnempAllowanceSatoshi)
 		console.Printf("再就職手当        : %7d 円 / %10.0f satoshi\n", reempAllowanceTotal, reempAllowanceTotalSatoshi)
 		console.Println("---------------------------------------------------")
+		console.Println("Buy bitcoin stashiで積み立てよう")
+		console.Println("https://github.com/erechorse/stashi")
 		return
 	}
 
