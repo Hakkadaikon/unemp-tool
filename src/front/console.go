@@ -1,8 +1,10 @@
 package front
 
 import (
+	"errors"
 	"fmt"
-	"github.com/MakeNowJust/heredoc/v2"
+	"github.com/manifoldco/promptui"
+	"strconv"
 )
 
 type (
@@ -10,14 +12,24 @@ type (
 )
 
 func (this *Console) GetInt(desc string) int {
-	fmt.Print("\n")
-	fmt.Println("---------------")
-	fmt.Println(heredoc.Doc(desc))
-	fmt.Println("---------------")
-	fmt.Print(":")
+	validate := func(input string) error {
+		_, err := strconv.Atoi(input)
+		if err != nil {
+			return errors.New("Invalid number")
+		}
+		return nil
+	}
 
-	var intVal int
-	fmt.Scan(&intVal)
+	prompt := promptui.Prompt{
+		Label:    desc,
+		Validate: validate,
+	}
+
+	intVal := 0
+	result, err := prompt.Run()
+	if err == nil {
+		intVal, _ = strconv.Atoi(result)
+	}
 
 	return intVal
 }
